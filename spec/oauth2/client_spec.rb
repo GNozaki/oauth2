@@ -35,7 +35,7 @@ describe OAuth2::Client do
     end
 
     it "leaves Faraday::Connection#ssl unset" do
-      expect(subject.connection.ssl).to eq({})
+      expect(subject.connection.ssl.to_hash).to eq({})
     end
 
     it "is able to pass a block to configure the connection" do
@@ -200,7 +200,7 @@ describe OAuth2::Client do
     end
 
     it "passes the SSL options along to Faraday::Connection#ssl" do
-      expect(subject.connection.ssl).to eq({:ca_file => 'foo.pem'})
+      expect(subject.connection.ssl.to_hash).to eq({:ca_file => 'foo.pem'})
     end
   end
 end
