@@ -62,20 +62,14 @@ module OAuth2
     #
     # @param [Hash] params additional query parameters
     def authorize_url(params=nil)
-      unless params.nil?
-        params_hash = Faraday::Utils::ParamsHash.new.merge(params)
-      end
-      connection.build_exclusive_url(options[:authorize_url], params_hash).to_s
+      connection.build_url(options[:authorize_url], params).to_s
     end
 
     # The token endpoint URL of the OAuth2 provider
     #
     # @param [Hash] params additional query parameters
     def token_url(params=nil)
-      unless params.nil?
-        params_hash = Faraday::Utils::ParamsHash.new.merge(params)
-      end
-      connection.build_exclusive_url(options[:token_url], params_hash).to_s
+      connection.build_exclusive_url(options[:token_url], params).to_s
     end
 
     # Makes a request relative to the specified site root.
@@ -91,10 +85,7 @@ module OAuth2
     # @option opts [Symbol] :parse @see Response::initialize
     # @yield [req] The Faraday request
     def request(verb, url, opts={})
-      unless opts[:params].nil?
-        params_hash = Faraday::Utils::ParamsHash.new.merge(opts[:params])
-      end
-      url = self.connection.build_exclusive_url(url, params_hash).to_s
+      url = self.connection.build_url(url, opts[:params]).to_s
 
       response = connection.run_request(verb, url, opts[:body], opts[:headers]) do |req|
         yield(req) if block_given?
