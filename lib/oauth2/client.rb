@@ -69,7 +69,7 @@ module OAuth2
     #
     # @param [Hash] params additional query parameters
     def token_url(params=nil)
-      connection.build_exclusive_url(options[:token_url], params).to_s
+      connection.build_url(options[:token_url], params).to_s
     end
 
     # Makes a request relative to the specified site root.
